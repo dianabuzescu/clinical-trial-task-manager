@@ -124,6 +124,38 @@ Update-Database
 
 ---
 
+## Screenshots
+
+<img width="1655" height="834" alt="image" src="https://github.com/user-attachments/assets/52fd6344-08aa-42a3-9938-47583a77ad00" />
+
+Dashboard overview showing overdue and upcoming tasks, grouped by status
+
+---
+
+<img width="1919" height="567" alt="image" src="https://github.com/user-attachments/assets/89c86c93-a45b-4a79-b47a-0b3e492a55d3" />
+
+Task list with advanced filtering, search and sorting by due date
+
+---
+
+<img width="862" height="772" alt="image" src="https://github.com/user-attachments/assets/d3605f9a-29e3-48e6-89c4-66c7cbcd4cb2" />
+
+Creating a task with enum-based priority and status, linked to a patient
+
+---
+
+<img width="1803" height="503" alt="image" src="https://github.com/user-attachments/assets/1ae138d4-319f-41a7-8911-d6b9abe3ec78" />
+
+Patients overview with assigned clinical studies
+
+---
+
+<img width="1761" height="520" alt="image" src="https://github.com/user-attachments/assets/34fea5c3-e0b7-4bcb-8f0d-3ffe7cf483b0" />
+
+Clinical studies management with sponsor and status tracking
+
+---
+
 ## Purpose
 
 This project was built as a learning and portfolio application, with a strong focus on:
