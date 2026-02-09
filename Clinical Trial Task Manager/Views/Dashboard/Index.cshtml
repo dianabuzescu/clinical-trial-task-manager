@@ -1,0 +1,131 @@
+﻿@model Clinical_Trial_Task_Manager.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Totals</h5>
+                <p class="mb-1"><strong>Studies:</strong> @Model.TotalStudies</p>
+                <p class="mb-1"><strong>Patients:</strong> @Model.TotalPatients</p>
+                <p class="mb-0"><strong>Tasks:</strong> @Model.TotalTasks</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Upcoming</h5>
+                <p class="mb-1"><strong>Next 7 days:</strong> @Model.Next7DaysTasksCount</p>
+                <p class="mb-0"><strong>Overdue:</strong> @Model.OverdueTasksCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Breakdown</h5>
+
+                <div class="mb-2">
+                    <strong>By Status:</strong>
+                    <ul class="mb-1">
+                        @foreach (var kv in Model.TasksByStatus)
+                        {
+                            <li>@kv.Key: @kv.Value</li>
+                        }
+                    </ul>
+                </div>
+
+                <div>
+                    <strong>By Priority:</strong>
+                    <ul class="mb-0">
+                        @foreach (var kv in Model.TasksByPriority)
+                        {
+                            <li>@kv.Key: @kv.Value</li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Overdue Tasks</h3>
+@if (!Model.OverdueTasks.Any())
+{
+    <p>No overdue tasks 🎉</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Patient</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.OverdueTasks)
+            {
+                <tr>
+                    <td>@t.Title</td>
+                    <td>@t.DueDate</td>
+                    <td>@t.Priority</td>
+                    <td>@t.Status</td>
+                    <td>@(t.Patient == null ? "-" : $"{t.Patient.Code} - {t.Patient.FullName}")</td>
+                    <td>
+                        <a asp-controller="TaskItems" asp-action="Edit" asp-route-id="@t.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h3>Tasks in the Next 7 Days</h3>
+@if (!Model.Next7DaysTasks.Any())
+{
+    <p>No tasks scheduled in the next 7 days.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Patient</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.Next7DaysTasks)
+            {
+                <tr>
+                    <td>@t.Title</td>
+                    <td>@t.DueDate</td>
+                    <td>@t.Priority</td>
+                    <td>@t.Status</td>
+                    <td>@(t.Patient == null ? "-" : $"{t.Patient.Code} - {t.Patient.FullName}")</td>
+                    <td>
+                        <a asp-controller="TaskItems" asp-action="Edit" asp-route-id="@t.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,86 @@
+﻿@model Clinical_Trial_Task_Manager.ViewModels.TaskItemsIndexViewModel
+@using Clinical_Trial_Task_Manager.Domain.Enums
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<h1>Tasks</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <input type="text" name="search" value="@Model.Search" class="form-control"
+               placeholder="Search by title or patient code..." />
+    </div>
+
+    <div class="col-md-2">
+        <select name="status" class="form-select">
+            <option value="">All statuses</option>
+            @foreach (var opt in Html.GetEnumSelectList<Clinical_Trial_Task_Manager.Domain.Enums.TaskStatus>())
+            {
+                var selected = Model.Status.HasValue && opt.Value == Model.Status.Value.ToString();
+                <option value="@opt.Value" selected="@(selected ? "selected" : null)">@opt.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="priority" class="form-select">
+            <option value="">All priorities</option>
+            @foreach (var opt in Html.GetEnumSelectList<TaskPriority>())
+            {
+                var selected = Model.Priority.HasValue && opt.Value == Model.Priority.Value.ToString();
+                <option value="@opt.Value" selected="@(selected ? "selected" : null)">@opt.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="sort" class="form-select">
+            <option value="due_asc" selected="@(Model.Sort == "due_asc" ? "selected" : null)">Due date ↑</option>
+            <option value="due_desc" selected="@(Model.Sort == "due_desc" ? "selected" : null)">Due date ↓</option>
+        </select>
+    </div>
+
+    <div class="col-md-1 d-grid">
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </div>
+
+    <div class="col-md-1 d-grid">
+        <a class="btn btn-outline-secondary" asp-action="Index">Clear</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Patient</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.DueDate.ToString("dd.MM.yyyy")</td>
+                <td>@item.Priority</td>
+                <td>@item.Status</td>
+                <td>@(item.Patient == null ? "-" : $"{item.Patient.Code} - {item.Patient.FullName}")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
